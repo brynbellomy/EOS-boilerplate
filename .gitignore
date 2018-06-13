@@ -1,0 +1,9 @@
+work/wallet-info.txt
+chain/
+*.wasm
+*.wast
+
+.DS_Store
+
+
+
