@@ -1,4 +1,6 @@
 work/wallet-info.txt
+work/wallet-info-default.json
+work/web/node_modules/
 chain/
 *.wasm
 *.wast
