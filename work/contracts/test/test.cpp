@@ -15,10 +15,18 @@ class pingpong : public eosio::contract
 
          playerIndex players(_self, _self);
          auto iterator = players.find(user);
-         players.emplace(user, [&](auto& player) {
-            player.username = user;
-            player.level = 123;
-        });
+
+         if (iterator == players.end()) {
+             players.emplace(user, [&](auto& player) {
+                player.username = user;
+                player.level = 123;
+            });
+         } else {
+             players.modify(iterator, user, [&](auto& player) {
+                player.username = user;
+                player.level++;
+            });
+         }
     }
 
     //@abi table player i64
