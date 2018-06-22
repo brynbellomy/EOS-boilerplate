@@ -1,9 +1,20 @@
-var EOS = require('eosjs')
+const EOS = require('eosjs')
+const keystore = require('../keystore.json')
 
-var eos = EOS()
+async function main() {
+    const chainId = (await EOS().getInfo({})).chain_id
+    const eos = EOS({
+        keyProvider: [ keystore.accounts['test.code'].activePrivateKey ],
+        chainId,
+    })
 
-// eos.getBlock({ block_num_or_id: 1 }).then(console.log)
-// console.log(eos)
-eos.getCurrencyBalance('eosio.token', 'eosio').then(x => console.log(x))
-// eos.getCurrencyStats()
-// eos.getProducers({lower_bound: 0}).then(console.log)
+    eos.getCurrencyBalance('eosio.token', 'eosio').then(x => console.log(x))
+    // eos.getCurrencyStats()
+
+    const pingContract = await eos.contract('test.code')
+    const receipt = await pingContract.ping('blah', {authorization: 'test.code@active'})
+    console.log('Receipt:', receipt)
+
+}
+
+main()

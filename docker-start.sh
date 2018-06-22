@@ -8,6 +8,7 @@ sudo docker run --rm \
     -p 8888:8888 \
     -p 9876:9876 \
     -v $PWD/work:/work \
+    -v $PWD/scripts:/scripts \
     -v $PWD/chain:/mnt/dev/data \
     eosdev \
     /bin/bash -c "nodeos -e -p eosio --plugin eosio::wallet_api_plugin --plugin eosio::wallet_plugin --plugin eosio::producer_plugin --plugin eosio::history_plugin --plugin eosio::chain_api_plugin --plugin eosio::history_api_plugin --plugin eosio::http_plugin -d /mnt/dev/data --http-server-address=0.0.0.0:8888 --access-control-allow-origin=* --contracts-console"
@@ -16,12 +17,14 @@ sudo docker exec -it eosio /opt/eosio/bin/keosd --unlock-timeout 999999999 --htt
 
 sudo docker exec \
     -it \
-    -w /setup \
+    -w /scripts \
     eosio \
     python3 ./setup-network.py \
     --cleos /opt/eosio/bin/cleos \
     --nodeos /opt/eosio/bin/nodeos \
     --keosd /opt/eosio/bin/keosd \
     --contracts-dir /contracts/ \
+    --accounts /setup/accounts.json \
+    --genesis /setup/genesis.json \
     --http-port 8888 \
     -a

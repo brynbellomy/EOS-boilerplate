@@ -4,6 +4,9 @@ work/web/node_modules/
 chain/
 *.wasm
 *.wast
+keystore.json
+
+__pycache__/
 
 .DS_Store
 

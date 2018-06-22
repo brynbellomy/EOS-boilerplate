@@ -9,10 +9,10 @@ import re
 import subprocess
 import sys
 import time
-from ..scripts.util import run, retry, background, getOutput, getJsonOutput
+from util import run, retry, background, getOutput, getJsonOutput, sleep
 
 args = None
-logFile = None
+# logFile = None
 
 unlockTimeout = 999999999
 fastUnstakeSystem = './fast.refund/eosio.system/eosio.system.wasm'
@@ -320,6 +320,7 @@ parser.add_argument('--keosd', metavar='', help="Path to keosd binary", default=
 parser.add_argument('--contracts-dir', metavar='', help="Path to contracts directory", default='../../build/contracts/')
 parser.add_argument('--nodes-dir', metavar='', help="Path to nodes directory", default='./nodes/')
 parser.add_argument('--genesis', metavar='', help="Path to genesis.json", default="./genesis.json")
+parser.add_argument('--accounts', metavar='', help="Path to accounts.json", default="./accounts.json")
 parser.add_argument('--wallet-dir', metavar='', help="Path to wallet directory", default='./wallet/')
 parser.add_argument('--log-path', metavar='', help="Path to log file", default='./output.log')
 parser.add_argument('--symbol', metavar='', help="The eosio.system symbol", default='SYS')
@@ -350,11 +351,11 @@ args = parser.parse_args()
 
 args.cleos += ' --url http://localhost:%d ' % args.http_port
 
-logFile = open(args.log_path, 'a')
+# logFile = open(args.log_path, 'a')
 
-logFile.write('\n\n' + '*' * 80 + '\n\n\n')
+# logFile.write('\n\n' + '*' * 80 + '\n\n\n')
 
-with open('accounts.json') as f:
+with open(args.accounts) as f:
     a = json.load(f)
     if args.user_limit:
         del a['users'][args.user_limit:]
